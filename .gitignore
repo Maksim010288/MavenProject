@@ -1,5 +1,5 @@
 # Everything related to intelij idea
-.idea/
+/.idea/
 *.iml
 
 # CMake
@@ -130,6 +130,4 @@ local.properties
 .cache-main
 .scala_dependencies
 .worksheet
-
-/.idea/
 .target/
