@@ -2,7 +2,6 @@ package romannumbers;
 
 import romannumbers.mappers.MapperType;
 import romannumbers.mappers.NumberMapper;
-import romannumbers.mappers.UAWordsMapper;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,8 +14,6 @@ public class OutputNumerals {
 
     private final MapperRegistry mapperRegistry = new MapperRegistry();
 
-    UAWordsMapper uaWordsMapper = new UAWordsMapper();
-
     public void inputData() {
         System.out.print("Enter a number from 1 to 3999 and   - ");
         int number = scanner.nextInt();
@@ -24,17 +21,15 @@ public class OutputNumerals {
         String mapperType = scanner.next().toUpperCase();
         MapperType nameType = MapperType.valueOf(mapperType);
         validateRomanNumerals.validate(number, nameType);
-        output(split(number), uaWordsMapper);
-        output(splitNumberDigits(number), mapperRegistry.selectMapper(nameType));
+        output(replaceTeen(number, nameType), mapperRegistry.selectMapper(nameType));
     }
 
-    public void output (ArrayList<Integer> reversed, UAWordsMapper uaWordsMapper){
-        List<Integer> revers = reverse(reversed);
-        for (Integer i : revers) {
-            System.out.println(uaWordsMapper.getMap().get(i));
-        }
+    public List<Integer> replaceTeen(int number, MapperType mapperType) {
+        List<Integer> splitNumberDigits = splitNumberDigits(number);
+        splitNumberDigits.removeIf(i -> i == 10 || i < 10 &&
+                mapperType.equals(MapperType.UA) || mapperType.equals(MapperType.EN));
+        return splitNumberDigits;
     }
-
 
     public List<Integer> splitNumberDigits(int number) {
         ArrayList<Integer> result = split(number);
