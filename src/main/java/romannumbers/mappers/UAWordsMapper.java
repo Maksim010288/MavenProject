@@ -61,4 +61,9 @@ public class UAWordsMapper implements NumberMapper {
     public Map<Integer, String> getMap() {
         return map;
     }
+
+    @Override
+    public boolean useTeen() {
+        return true;
+    }
 }

@@ -8,4 +8,8 @@ public interface NumberMapper {
     }
 
     Map<Integer, String> getMap();
+
+    default boolean useTeen() {
+        return false;
+    };
 }

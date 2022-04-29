@@ -54,4 +54,9 @@ public class ENWordsMapper implements NumberMapper {
         return map;
     }
 
+    @Override
+    public boolean useTeen() {
+        return true;
+    }
+
 }

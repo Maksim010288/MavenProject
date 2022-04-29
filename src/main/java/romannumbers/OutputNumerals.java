@@ -1,47 +1,36 @@
 package romannumbers;
 
-import romannumbers.mappers.MapperType;
 import romannumbers.mappers.NumberMapper;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class OutputNumerals {
 
-    private final Scanner scanner = new Scanner(System.in);
-
-    private final ValidateRomanNumerals validateRomanNumerals = new ValidateRomanNumerals();
-
-    private final MapperRegistry mapperRegistry = new MapperRegistry();
-
-    public void inputData() {
-        System.out.print("Enter a number from 1 to 3999 and   - ");
-        int number = scanner.nextInt();
-        System.out.print("Enter(UA, EN, ROM) - ");
-        String mapperType = scanner.next().toUpperCase();
-        MapperType nameType = MapperType.valueOf(mapperType);
-        validateRomanNumerals.validate(number, nameType);
-        output(replaceTeen(number, nameType), mapperRegistry.selectMapper(nameType));
+    public List<Integer> replaceTeen(List<Integer> numbers) {
+        List<Integer> sorted = sortDesc(numbers);
+        int skip = numbers.size() > 1
+                ? numbers.size() - 2
+                : 0;
+        int sum = sorted.stream()
+                .skip(skip)
+                .mapToInt(Integer::intValue)
+                .sum();
+        if (sum > 10 && sum < 20) {
+            sorted.add(sum);
+            sorted.removeIf(i -> i == 10 || i < 10);
+        }
+        return sorted;
     }
 
-    public List<Integer> replaceTeen(int number, MapperType mapperType) {
-        List<Integer> splitNumberDigits = splitNumberDigits(number);
-        splitNumberDigits.removeIf(i -> i == 10 || i < 10 &&
-                mapperType.equals(MapperType.UA) || mapperType.equals(MapperType.EN));
-        return splitNumberDigits;
-    }
-
-    public List<Integer> splitNumberDigits(int number) {
-        ArrayList<Integer> result = split(number);
-        return reverse(result);
-    }
-
-    public List<Integer> reverse(ArrayList<Integer> result) {
+    public List<Integer> sortDesc(List<Integer> result) {
         return result.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
     }
 
-    public ArrayList<Integer> split(int number) {
-        ArrayList<Integer> result = new ArrayList<>();
+    public List<Integer> split(int number) {
+        List<Integer> result = new ArrayList<>();
         int x, y, count = 1;
         for (int j = number; j > 0; j = j / 10) {
             x = j % 10;
