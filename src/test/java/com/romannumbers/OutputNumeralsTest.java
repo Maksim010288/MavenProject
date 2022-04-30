@@ -12,10 +12,6 @@ class OutputNumeralsTest {
     private final OutputNumerals outputNumerals = new OutputNumerals();
 
     @Test
-    void inputData() {
-    }
-
-    @Test
     void splitNumberDigits() {
         int number = 247;
         ArrayList<Integer> list = new ArrayList<>();
@@ -46,6 +42,7 @@ class OutputNumeralsTest {
         assertEquals(list, outputNumerals.split(number));
     }
 
+
     @Test
     void splitLessTheZero() {
         int number = -247;
@@ -54,10 +51,6 @@ class OutputNumeralsTest {
         List<Integer> integerList = outputNumerals.split(number);
 
         assertEquals(list, integerList);
-    }
-
-    @Test
-    void output() {
     }
 
     @Test
