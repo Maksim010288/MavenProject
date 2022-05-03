@@ -1,10 +1,12 @@
 package romannumbers;
 
-import romannumbers.mappers.NumberMapper;
+import romannumbers.mappers.memory.NumberMapper;
+import romannumbers.mappers.properties.PropertiesMapper;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 public class OutputNumerals {
@@ -39,6 +41,15 @@ public class OutputNumerals {
             count = count * 10;
         }
         return result;
+    }
+
+    public void outProperties(PropertiesMapper propertiesMapper, List<Integer> list)
+            throws Exception{
+        Properties properties = new Properties();
+        properties.load(propertiesMapper.getEnProp());
+        for (Integer integer : list) {
+            System.out.print(properties.getProperty(String.valueOf(integer)) + " ");
+        }
     }
 
     public void output(List<Integer> numbers, NumberMapper mapper) {

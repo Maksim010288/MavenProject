@@ -1,7 +1,8 @@
 package romannumbers;
 
-import romannumbers.mappers.MapperType;
-import romannumbers.mappers.NumberMapper;
+import romannumbers.mappers.memory.MapperType;
+import romannumbers.mappers.memory.NumberMapper;
+import romannumbers.mappers.properties.PropertiesMapper;
 
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +15,9 @@ public class MainNumeralsMapper {
 
         ValidateRomanNumerals validateRomanNumerals = new ValidateRomanNumerals();
 
-        MapperRegistry mapperRegistry = new MapperRegistry();
+        InMemoryMapper mapperRegistry = new InMemoryMapper();
+
+        PropertiesMapper propertiesMapper = new PropertiesMapper();
 
         System.out.print("Enter a number from 1 to 3999 and   - ");
         int number = scanner.nextInt();
@@ -27,6 +30,11 @@ public class MainNumeralsMapper {
         if (mapper.useTeen()) {
             numbers = outputNumerals.replaceTeen(numbers);
         }
-        outputNumerals.output(outputNumerals.sortDesc(numbers), mapper);
+        //outputNumerals.output(outputNumerals.sortDesc(numbers), mapper);
+        try {
+            outputNumerals.outProperties(propertiesMapper, numbers);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }

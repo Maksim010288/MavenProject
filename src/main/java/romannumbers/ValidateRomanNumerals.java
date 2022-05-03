@@ -1,6 +1,6 @@
 package romannumbers;
 
-import romannumbers.mappers.MapperType;
+import romannumbers.mappers.memory.MapperType;
 
 public class ValidateRomanNumerals {
 

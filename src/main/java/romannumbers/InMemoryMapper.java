@@ -1,11 +1,11 @@
 package romannumbers;
 
-import romannumbers.mappers.*;
+import romannumbers.mappers.memory.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapperRegistry {
+public class InMemoryMapper {
 
     private final NumberMapper romanMapper = new RomanNumeralsMapper();
     private final NumberMapper uaWordsMapper = new UAWordsMapper();
@@ -13,7 +13,7 @@ public class MapperRegistry {
 
     private final Map<MapperType, NumberMapper> map = new HashMap<>();
 
-    public MapperRegistry() {
+    public InMemoryMapper() {
         map.put(MapperType.ROM, romanMapper);
         map.put(MapperType.UA, uaWordsMapper);
         map.put(MapperType.EN, usaWordsMapper);

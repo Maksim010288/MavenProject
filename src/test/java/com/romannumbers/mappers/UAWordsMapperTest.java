@@ -2,7 +2,7 @@ package com.romannumbers.mappers;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import romannumbers.mappers.UAWordsMapper;
+import romannumbers.mappers.memory.UAWordsMapper;
 
 class UAWordsMapperTest {
 
