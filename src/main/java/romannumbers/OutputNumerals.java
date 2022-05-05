@@ -1,12 +1,7 @@
 package romannumbers;
 
-import romannumbers.mappers.memory.NumberMapper;
-import romannumbers.mappers.properties.PropertiesMapper;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Properties;
+import java.io.FileInputStream;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class OutputNumerals {
@@ -43,14 +38,15 @@ public class OutputNumerals {
         return result;
     }
 
-    public void outProperties(PropertiesMapper propertiesMapper, List<Integer> list)
-            throws Exception{
+    Properties properties = new Properties();
+
+    public Properties propertiesOutput(String filePath) throws Exception {
+        FileInputStream fileInputStream = new FileInputStream(filePath);
         Properties properties = new Properties();
-        properties.load(propertiesMapper.getEnProp());
-        for (Integer integer : list) {
-            System.out.print(properties.getProperty(String.valueOf(integer)) + " ");
-        }
+        properties.load(fileInputStream);
+        return properties;
     }
+
 
     public void output(List<Integer> numbers, NumberMapper mapper) {
         String collect = numbers.stream()

@@ -1,5 +1,7 @@
 package romannumbers.mappers.memory;
 
+import romannumbers.NumberMapper;
+
 import java.util.HashMap;
 import java.util.Map;
 

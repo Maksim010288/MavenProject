@@ -5,7 +5,7 @@ import romannumbers.mappers.memory.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InMemoryMapper {
+public class RegistryMamoryMapper {
 
     private final NumberMapper romanMapper = new RomanNumeralsMapper();
     private final NumberMapper uaWordsMapper = new UAWordsMapper();
@@ -13,7 +13,7 @@ public class InMemoryMapper {
 
     private final Map<MapperType, NumberMapper> map = new HashMap<>();
 
-    public InMemoryMapper() {
+    public RegistryMamoryMapper() {
         map.put(MapperType.ROM, romanMapper);
         map.put(MapperType.UA, uaWordsMapper);
         map.put(MapperType.EN, usaWordsMapper);

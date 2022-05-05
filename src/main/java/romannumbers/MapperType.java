@@ -1,4 +1,4 @@
-package romannumbers.mappers.memory;
+package romannumbers;
 
 public enum MapperType {
     ROM, UA, EN
