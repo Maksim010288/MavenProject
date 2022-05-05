@@ -15,13 +15,12 @@ public class MainNumeralsMapper {
 
         RegistryMamoryMapper mapperRegistry = new RegistryMamoryMapper();
 
-        MemoryProperties memoryProperties = new MemoryProperties();
-
         System.out.print("Enter a number from 1 to 3999 and   - ");
         int number = scanner.nextInt();
         System.out.print("Enter(UA, EN, ROM) - ");
         String mapperType = scanner.next().toUpperCase();
         MapperType nameType = MapperType.valueOf(mapperType);
+        MemoryProperties memoryProperties = new MemoryProperties(nameType);
         validateRomanNumerals.validate(number, nameType);
         NumberMapper mapper = mapperRegistry.selectMapper(nameType);
         List<Integer> numbers = outputNumerals.split(number);

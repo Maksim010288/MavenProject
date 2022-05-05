@@ -1,5 +1,7 @@
 package romannumbers.mappers.properties;
 
+import romannumbers.MapperType;
+
 import java.io.FileInputStream;
 import java.util.List;
 import java.util.Properties;
@@ -8,8 +10,12 @@ public class MemoryProperties {
 
     String filePath;
 
-    public MemoryProperties() {
-        this.filePath = "src/main/java/resources/en.properties";
+    public MemoryProperties(MapperType mapperType) {
+        if (mapperType == MapperType.EN) {
+            this.filePath = "src/main/java/resources/en.properties";
+        }else {
+            this.filePath = "src/main/java/resources/ua.properties";
+        }
     }
 
     private Properties InitializationProp(String str) throws Exception {
