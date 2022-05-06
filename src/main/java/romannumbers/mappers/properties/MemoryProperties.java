@@ -12,7 +12,8 @@ public class MemoryProperties implements NumberMapper {
     String filePath;
 
     public MemoryProperties(MapperType mapperType, String name) {
-        boolean mapType = mapperType == MapperType.UA || mapperType == MapperType.EN ||
+        boolean mapType = mapperType == MapperType.UA ||
+                mapperType == MapperType.EN ||
                 mapperType == MapperType.ROM;
         if (mapType) {
             this.filePath = "src/main/java/resources/" + name + ".properties";
