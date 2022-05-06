@@ -20,7 +20,7 @@ public class MainNumeralsMapper {
         System.out.print("Enter(UA, EN, ROM) - ");
         String mapperType = scanner.next().toUpperCase();
         MapperType nameType = MapperType.valueOf(mapperType);
-        MemoryProperties memoryProperties = new MemoryProperties(nameType);
+        MemoryProperties memoryProperties = new MemoryProperties(nameType, mapperType.toLowerCase());
         validateRomanNumerals.validate(number, nameType);
         NumberMapper mapper = mapperRegistry.selectMapper(nameType);
         List<Integer> numbers = outputNumerals.split(number);
@@ -29,7 +29,7 @@ public class MainNumeralsMapper {
         }
         outputNumerals.output(outputNumerals.sortDesc(numbers), mapper);
         try {
-            memoryProperties.outputProp(numbers, memoryProperties.getFilePath());
+            memoryProperties.outputProp(numbers, memoryProperties.getFilePath(), nameType);
         } catch (Exception e) {
             e.printStackTrace();
         }

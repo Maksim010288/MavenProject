@@ -7,7 +7,9 @@ public interface NumberMapper {
         return " ";
     }
 
-    Map<Integer, String> getMap();
+    default Map<Integer, String> getMap(){
+        return null;
+    }
 
     default boolean useTeen() {
         return false;
