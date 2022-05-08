@@ -9,7 +9,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class OutputNumeralsTest {
-    private final OutputNumerals outputNumerals = new OutputNumerals();
+    private final OutputNumerals outputNumerals = new OutputNumerals(null);
 
     @Test
     void splitNumberDigits() {

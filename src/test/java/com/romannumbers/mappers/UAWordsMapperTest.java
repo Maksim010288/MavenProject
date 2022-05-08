@@ -6,9 +6,4 @@ import romannumbers.mappers.memory.UAWordsMapper;
 
 class UAWordsMapperTest {
 
-    @Test
-    void getMap() {
-        UAWordsMapper uaWordsMapper = new UAWordsMapper();
-        Assertions.assertEquals(uaWordsMapper.map, uaWordsMapper.getMap());
-    }
 }

@@ -1,6 +1,6 @@
 package romannumbers.mappers.memory;
 
-import romannumbers.NumberMapper;
+import romannumbers.mappers.NumberMapper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,13 +52,8 @@ public class ENWordsMapper implements NumberMapper {
     }
 
     @Override
-    public Map<Integer, String> getMap() {
-        return map;
-    }
-
-    @Override
-    public boolean useTeen() {
-        return true;
+    public String map(int number) {
+        return map.get(number);
     }
 
 }

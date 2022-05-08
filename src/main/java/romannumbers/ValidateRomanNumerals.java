@@ -1,5 +1,7 @@
 package romannumbers;
 
+import romannumbers.mappers.MapperType;
+
 public class ValidateRomanNumerals {
 
     private static final int MAX_ROMAN_NUM = 3999;

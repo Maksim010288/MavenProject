@@ -1,6 +1,6 @@
 package romannumbers.mappers.memory;
 
-import romannumbers.NumberMapper;
+import romannumbers.mappers.NumberMapper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,15 +43,9 @@ public class RomanNumeralsMapper implements NumberMapper {
     }
 
     @Override
-    public String getDelimiter() {
-        return "";
+    public String map(int number) {
+        return map.get(number);
     }
-
-    @Override
-    public Map<Integer, String> getMap() {
-        return map;
-    }
-
 
     @Override
     public String toString() {
