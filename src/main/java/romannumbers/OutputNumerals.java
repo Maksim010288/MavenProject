@@ -63,7 +63,9 @@ public class OutputNumerals {
     }
 
     public List<Integer> sortDesc(List<Integer> result) {
-        return result.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        return result.stream()
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
     }
 
 }
