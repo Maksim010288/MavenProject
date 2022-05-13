@@ -3,6 +3,9 @@ package romannumbers;
 import romannumbers.mappers.MapperRegistry;
 import romannumbers.mappers.MapperType;
 import romannumbers.mappers.NumberMapper;
+import romannumbers.mappers.databases.SQLRequests;
+import romannumbers.mappers.databases.connect.DBConnection;
+import romannumbers.mappers.databases.connect.DBConnectionData;
 
 import java.util.ArrayList;
 import java.util.Comparator;

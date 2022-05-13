@@ -21,7 +21,7 @@ public class SQLConnect {
                     dbConnectionData.getDbName()
                     );
             Class.forName(dbConnectionData.dbDriver);
-            System.out.println("Connect");
+            System.out.println("Connect...");
             return DriverManager.getConnection(connectionString,
                     dbConnectionData.dbUser,
                     dbConnectionData.dbPass);

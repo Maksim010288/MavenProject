@@ -1,6 +1,10 @@
 package romannumbers;
 
 import romannumbers.mappers.MapperType;
+import romannumbers.mappers.databases.RegisterMapperDb;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ValidateRomanNumerals {
 

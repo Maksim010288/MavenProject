@@ -1,13 +1,8 @@
 package romannumbers.mappers.databases;
 
-import romannumbers.mappers.MapperType;
-
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Properties;
-import java.util.stream.Collectors;
 
 public class SQLRequests {
     Connection connection;
@@ -34,7 +29,7 @@ public class SQLRequests {
         statement.execute();
     }
 
-    protected List<String> selectTable(List<Integer> dbColumn) throws SQLException {
+    protected List<String> selectTable(List<Integer> dbColumn, String str) throws SQLException {
         List<String> res = new ArrayList<>();
         String read = "SELECT mappersNum, mappersNumType, mappersNumValue FROM mappers";
         Statement statement = connection.createStatement();
@@ -42,7 +37,7 @@ public class SQLRequests {
         while (resultSet.next()) {
             for (Integer column : dbColumn) {
                 if (column.equals(resultSet.getInt(mapperDb.getMappersNum())) &&
-                        resultSet.getString(mapperDb.getMappersNumType()).equals("UA")) {
+                        resultSet.getString(mapperDb.getMappersNumType()).equals(str)) {
                     res.add(resultSet.getString(mapperDb.getMappersNumValue()));
                 }
             }
@@ -50,16 +45,17 @@ public class SQLRequests {
         return res;
     }
 
-    protected List<String> revers(List<Integer> integerList) throws SQLException {
-        List<String> list = selectTable(integerList);
-        return list.stream()
-                .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toList());
+    protected List<String> revers(List<Integer> integerList, String type) throws SQLException {
+        List<String> out = new ArrayList<>();
+        for (int i = selectTable(integerList, type).size() - 1; i >= 0; i--) {
+            out.add(selectTable(integerList, type).get(i));
+        }
+        return out;
     }
 
-    public void outputResult(List<Integer> dbColumn) {
+    public void outputResult(List<Integer> dbColumn, String type) {
         try {
-            List<String> outputRes = revers(dbColumn);
+            List<String> outputRes = revers(dbColumn, type);
             for (String dbList : outputRes) {
                 System.out.print(dbList + " ");
             }
