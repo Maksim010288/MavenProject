@@ -1,12 +1,8 @@
 package romannumbers;
 
 import romannumbers.mappers.MapperType;
-import romannumbers.mappers.databases.RegisterMapperDb;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-public class ValidateRomanNumerals {
+public class RomanNumeralsValidator {
 
     private static final int MAX_ROMAN_NUM = 3999;
 

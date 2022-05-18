@@ -3,9 +3,6 @@ package romannumbers;
 import romannumbers.mappers.MapperRegistry;
 import romannumbers.mappers.MapperType;
 import romannumbers.mappers.NumberMapper;
-import romannumbers.mappers.databases.SQLRequests;
-import romannumbers.mappers.databases.connect.DBConnection;
-import romannumbers.mappers.databases.connect.DBConnectionData;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -17,12 +14,13 @@ import static java.util.stream.Collectors.joining;
 public class OutputNumerals {
 
     private final MapperRegistry mapperRegistry;
-    private final ValidateRomanNumerals validator;
+    private final RomanNumeralsValidator validator;
 
     public OutputNumerals(MapperRegistry mapperRegistry) {
         this.mapperRegistry = mapperRegistry;
-        this.validator = new ValidateRomanNumerals();
+        this.validator = new RomanNumeralsValidator();
     }
+
 
     public void output(int number, MapperType mapperType) {
         validator.validate(number, mapperType);

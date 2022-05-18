@@ -1,26 +1,28 @@
 package romannumbers;
 
+import romannumbers.db.MappersDAO;
+import romannumbers.db.connect.DBConfigReader;
+import romannumbers.db.connect.SQLConnector;
 import romannumbers.mappers.MapperRegistry;
 import romannumbers.mappers.MapperType;
-import romannumbers.mappers.databases.SQLRequests;
-import romannumbers.mappers.databases.connect.DBConnectionData;
-import romannumbers.mappers.databases.connect.SQLConnect;
 
 import java.util.Scanner;
 
 public class NumeralsMapperMain {
     private static final Scanner scanner = new Scanner(System.in);
-   public static String mapperTypeName;
-
+    public static String mapperTypeName;
+    public static String name;
     public static void main(String[] args) {
-        boolean inMemoryRegistry = Boolean.parseBoolean(args[0]);
+        String whereARead = readString();
         int number = readNumber();
         MapperType mapperType = readMapperType();
-        SQLRequests sqlRequests = readSQLRequest();
-        OutputNumerals outputNumerals = new OutputNumerals(new MapperRegistry(inMemoryRegistry));
-        //outputNumerals.output(number, mapperType);
-        assert sqlRequests != null;
-        sqlRequests.outputResult(outputNumerals.split(number), mapperTypeName);
+        MapperRegistry mapperRegistry = new MapperRegistry(whereARead);
+        LiveSelectionInConsole liveSelectionInConsole = new LiveSelectionInConsole();
+        MappersDAO mappersDAO = createMappersDAO();
+        OutputNumerals outputNumerals = new OutputNumerals(mapperRegistry);
+        mapperRegistry.selectMapper(MapperType.UA);
+        liveSelectionInConsole.selectionInConsole(number, whereARead, outputNumerals, mappersDAO, mapperType);
+
     }
 
     private static MapperType readMapperType() {
@@ -34,13 +36,20 @@ public class NumeralsMapperMain {
         return scanner.nextInt();
     }
 
-    private static SQLRequests readSQLRequest() {
-        DBConnectionData dbConnectionData = null;
+    private static String readString(){
+        System.out.print("Enter where to read - ");
+        name = scanner.nextLine();
+        return name;
+    }
+
+    private static MappersDAO createMappersDAO() {
         try {
-            return new SQLRequests(new SQLConnect(dbConnectionData).getDbConnect());
+            DBConfigReader dbConfigReader = new DBConfigReader("src/main/resources/db/db.properties");
+            SQLConnector connector = new SQLConnector(dbConfigReader.readDBConnectionConfig());
+            return new MappersDAO(connector.getDbConnection());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Could not connect");
+            throw new RuntimeException(e);
         }
-        return null;
     }
 }
