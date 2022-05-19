@@ -20,9 +20,7 @@ public class NumeralsMapperMain {
         LiveSelectionInConsole liveSelectionInConsole = new LiveSelectionInConsole();
         MappersDAO mappersDAO = createMappersDAO();
         OutputNumerals outputNumerals = new OutputNumerals(mapperRegistry);
-        mapperRegistry.selectMapper(MapperType.UA);
-        liveSelectionInConsole.selectionInConsole(number, whereARead, outputNumerals, mappersDAO, mapperType);
-
+        liveSelectionInConsole.outputInConsole(number, whereARead, outputNumerals, mappersDAO, mapperType);
     }
 
     private static MapperType readMapperType() {

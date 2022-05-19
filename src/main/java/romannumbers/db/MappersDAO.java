@@ -12,15 +12,17 @@ import javax.xml.validation.Validator;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class MappersDAO {
     private Connection connection;
+    private Logger logger = Logger.getLogger("");
 
     public MappersDAO(Connection connection) {
         this.connection = connection;
     }
 
-    public void create() throws Exception {
+    private void create() throws Exception {
         String read = "INSERT INTO mappers (mappersNum, mappersNumType, mappersNumValue) values (?,?,?)";
 
         PreparedStatement statement = connection.prepareStatement(read);
@@ -56,16 +58,21 @@ public class MappersDAO {
         return outputNumerals.sortDesc(returnListNumber(mapper, number));
     }
 
+
+    private String dbpath(MapperType mapperType, Integer integer){
+        DBMapper mapper = new DBMapper(mapperType);
+        return "SELECT mappersNum, mappersNumType, mappersNumValue" +
+                " FROM mappers WHERE mappersNum =" +
+                integer + " and mappersNumType = " +
+                "'" + mapper.getMapperType() + "'";
+    }
+
     private List<String> selectTableColumn(MapperType mapperType, String mappers, Integer number) {
         List<Integer> revers = reversListNumber(mappers, number);
         List<String> listREaDb = new ArrayList<>();
         try {
-            DBMapper mapper = new DBMapper(mapperType);
             for (Integer integer : revers) {
-                String read = "SELECT mappersNum, mappersNumType, mappersNumValue" +
-                        " FROM mappers WHERE mappersNum =" +
-                        integer + " and mappersNumType = " +
-                        "'" + mapper.getMapperType() + "'";
+                String read = dbpath(mapperType, integer);
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(read);
                 while (resultSet.next()) {
@@ -83,14 +90,8 @@ public class MappersDAO {
         for (String str : result) {
             System.out.print(str + " ");
         }
+        System.out.println();
+        logger.info(result + " ");
     }
 }
 
-class Main {
-    public static void main(String[] args) throws Exception {
-        String path = "src/main/resources/db/db.properties";
-        MappersDAO dao = new MappersDAO(new SQLConnector(new DBConfigReader(path).readDBConnectionConfig()).getDbConnection());
-        DBMapper mapper = new DBMapper(MapperType.EN);
-        // dao.returnResult(dao.selectTableColumn(MapperType.UA));
-    }
-}
