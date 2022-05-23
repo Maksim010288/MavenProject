@@ -5,6 +5,7 @@ import romannumbers.db.connect.DBConfigReader;
 import romannumbers.db.connect.SQLConnector;
 import romannumbers.mappers.MapperRegistry;
 import romannumbers.mappers.MapperType;
+import romannumbers.mappers.ReadStorageType;
 
 import java.util.Scanner;
 
@@ -12,15 +13,19 @@ public class NumeralsMapperMain {
     private static final Scanner scanner = new Scanner(System.in);
     public static String mapperTypeName;
     public static String name;
+    public static MappersDAO mappersDAO;
+
     public static void main(String[] args) {
-        String whereARead = readString();
+        ReadStorageType readStorageType = readStorageType();
         int number = readNumber();
         MapperType mapperType = readMapperType();
-        MapperRegistry mapperRegistry = new MapperRegistry(whereARead);
-        LiveSelectionInConsole liveSelectionInConsole = new LiveSelectionInConsole();
-        MappersDAO mappersDAO = createMappersDAO();
+        if (!readStorageType.equals(ReadStorageType.FILE) &&
+                !readStorageType.equals(ReadStorageType.INMEMORY)) {
+            mappersDAO = createMappersDAO();
+        }
+        MapperRegistry mapperRegistry = new MapperRegistry(readStorageType, mappersDAO);
         OutputNumerals outputNumerals = new OutputNumerals(mapperRegistry);
-        liveSelectionInConsole.outputInConsole(number, whereARead, outputNumerals, mappersDAO, mapperType);
+        outputNumerals.output(number, mapperType);
     }
 
     private static MapperType readMapperType() {
@@ -34,10 +39,10 @@ public class NumeralsMapperMain {
         return scanner.nextInt();
     }
 
-    private static String readString(){
-        System.out.print("Enter where to read - ");
-        name = scanner.nextLine();
-        return name;
+    private static ReadStorageType readStorageType() {
+        System.out.print("Enter where to read [inMemory, file, db] - ");
+        name = scanner.nextLine().toUpperCase();
+        return ReadStorageType.valueOf(name);
     }
 
     private static MappersDAO createMappersDAO() {

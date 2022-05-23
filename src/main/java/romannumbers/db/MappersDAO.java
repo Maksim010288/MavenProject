@@ -1,17 +1,8 @@
 package romannumbers.db;
 
-import romannumbers.OutputNumerals;
-import romannumbers.db.connect.DBConfig;
-import romannumbers.db.connect.DBConfigReader;
-import romannumbers.db.connect.SQLConnector;
-import romannumbers.mappers.MapperRegistry;
 import romannumbers.mappers.MapperType;
-import romannumbers.mappers.db.DBMapper;
 
-import javax.xml.validation.Validator;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 public class MappersDAO {
@@ -32,66 +23,23 @@ public class MappersDAO {
         statement.execute();
     }
 
-    protected List<String> selectTable(List<Integer> dbColumn, String str) throws SQLException {
-        List<String> res = new ArrayList<>();
-        String read = "SELECT mappersNum, mappersNumType, mappersNumValue FROM mappers WHERE ";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(read);
-        while (resultSet.next()) {
-            for (Integer column : dbColumn) {
-                if (column.equals(resultSet.getInt("mappersNum")) &&
-                        resultSet.getString("mappersNumType").equals(str)) {
-                    res.add(resultSet.getString("mappersNumValue"));
-                }
-            }
-        }
-        return res;
-    }
-
-    private List<Integer> returnListNumber(String mapper, int number) {
-        return new OutputNumerals(new MapperRegistry(mapper)).split(number);
-    }
-
-    private List<Integer> reversListNumber(String mapper, int number) {
-        MapperRegistry mapperRegistry = new MapperRegistry(mapper);
-        OutputNumerals outputNumerals = new OutputNumerals(mapperRegistry);
-        return outputNumerals.sortDesc(returnListNumber(mapper, number));
-    }
-
-
-    private String dbpath(MapperType mapperType, Integer integer){
-        DBMapper mapper = new DBMapper(mapperType);
-        return "SELECT mappersNum, mappersNumType, mappersNumValue" +
-                " FROM mappers WHERE mappersNum =" +
-                integer + " and mappersNumType = " +
-                "'" + mapper.getMapperType() + "'";
-    }
-
-    private List<String> selectTableColumn(MapperType mapperType, String mappers, Integer number) {
-        List<Integer> revers = reversListNumber(mappers, number);
-        List<String> listREaDb = new ArrayList<>();
+    public String dbpath(Integer number, MapperType mapperType) {
+        String outRequest = null;
         try {
-            for (Integer integer : revers) {
-                String read = dbpath(mapperType, integer);
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(read);
-                while (resultSet.next()) {
-                    listREaDb.add(resultSet.getString("mappersNumValue"));
-                }
+            String request = String.format("SELECT * FROM mappers WHERE mappersNum = %s and mappersNumType = %s",
+                    "?", "?");
+            PreparedStatement preparedStatement = connection.prepareStatement(request);
+            preparedStatement.setInt(1, number);
+            preparedStatement.setString(2, ""+ mapperType +"");
+            preparedStatement.execute();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                outRequest = resultSet.getString(4);
             }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            resultSet.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return listREaDb;
-    }
-
-    public void returnResult(MapperType mapperType, String mappers, Integer number) {
-        List<String> result = selectTableColumn(mapperType, mappers, number);
-        for (String str : result) {
-            System.out.print(str + " ");
-        }
-        System.out.println();
-        logger.info(result + " ");
+        return outRequest;
     }
 }
-

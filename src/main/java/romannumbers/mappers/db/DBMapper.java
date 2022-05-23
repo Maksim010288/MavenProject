@@ -1,24 +1,21 @@
 package romannumbers.mappers.db;
 
+import romannumbers.db.MappersDAO;
 import romannumbers.mappers.MapperType;
 import romannumbers.mappers.NumberMapper;
-
-import java.util.List;
 
 public class DBMapper implements NumberMapper {
 
     private MapperType mapperType;
+    private MappersDAO mappersDAO;
 
-    public DBMapper(MapperType mapperType) {
+    public DBMapper(MapperType mapperType, MappersDAO mappersDAO) {
         this.mapperType = mapperType;
-    }
-
-    public MapperType getMapperType() {
-        return mapperType;
+        this.mappersDAO = mappersDAO;
     }
 
     @Override
     public String map(int number) {
-        return String.valueOf(number);
+       return mappersDAO.dbpath(number,mapperType);
     }
 }
