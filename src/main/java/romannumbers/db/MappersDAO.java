@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 public class MappersDAO {
     private Connection connection;
-    private Logger logger = Logger.getLogger("");
+    private Logger logger = Logger.getLogger(this.getClass().getName());
 
     public MappersDAO(Connection connection) {
         this.connection = connection;
@@ -23,18 +23,18 @@ public class MappersDAO {
         statement.execute();
     }
 
-    public String dbpath(Integer number, MapperType mapperType) {
+    public String returnDataFromDb(Integer number, MapperType mapperType) {
         String outRequest = null;
         try {
-            String request = String.format("SELECT * FROM mappers WHERE mappersNum = %s and mappersNumType = %s",
-                    "?", "?");
+            String request = "SELECT * FROM mappers WHERE mappersNum = ? and mappersNumType = ? ";
             PreparedStatement preparedStatement = connection.prepareStatement(request);
             preparedStatement.setInt(1, number);
-            preparedStatement.setString(2, ""+ mapperType +"");
+            preparedStatement.setString(2, mapperType.name());
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 outRequest = resultSet.getString(4);
+                logger.info(outRequest);
             }
             resultSet.close();
         } catch (Exception e) {

@@ -16,6 +16,6 @@ public class DBMapper implements NumberMapper {
 
     @Override
     public String map(int number) {
-       return mappersDAO.dbpath(number,mapperType);
+       return mappersDAO.returnDataFromDb(number,mapperType);
     }
 }
